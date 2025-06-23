@@ -1,4 +1,4 @@
 Django==5.2.3
-Selenium==4.33
-webdriver-manager
+selenium==4.33.0
+webdriver-manager==3.8.6
 pytest
