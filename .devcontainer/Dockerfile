@@ -1,6 +1,7 @@
-FROM mcr.microsoft.com/devcontainers/python:1-3.12-bullseye
+# Start from the official GitHub dev container image for Python
+FROM mcr.microsoft.com/devcontainers/python:3.12
 
-# Install browsers and drivers from Debian packages
+# Install browsers and drivers
 RUN apt-get update && apt-get install -y \
     firefox-esr \
     chromium \
@@ -11,14 +12,18 @@ RUN apt-get update && apt-get install -y \
     libnss3 \
     libxss1 \
     libasound2 \
+    libxss1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
-COPY ../requirements.txt /workspace/requirements.txt
-RUN pip install --no-cache-dir -r /workspace/requirements.txt
-
-WORKDIR /workspace
+# Set environment variable for headless display
 ENV DISPLAY=:99
 
-# Start Xvfb headless display
+# Set working directory
+WORKDIR /workspace
+
+# Copy and install Python dependencies
+COPY ../requirements.txt /workspace/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Start Xvfb and bash when container starts
 CMD ["sh", "-c", "Xvfb :99 -screen 0 1024x768x24 & exec bash"]
