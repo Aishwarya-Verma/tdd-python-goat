@@ -3,19 +3,18 @@ FROM mcr.microsoft.com/devcontainers/python:3.12
 
 # Install browsers and drivers
 RUN apt-get update && apt-get install -y \
-    firefox-esr \
     chromium \
     chromium-driver \
+    firefox-esr \
     xvfb \
     libgtk-3-0 \
     libdbus-glib-1-2 \
     libnss3 \
     libxss1 \
     libasound2 \
-    libxss1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Set environment variable for headless display
+# Set headless display environment variable
 ENV DISPLAY=:99
 
 # Set working directory
