@@ -1,3 +1,4 @@
+import unittest
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.firefox.service import Service as FirefoxService
@@ -6,26 +7,43 @@ from selenium.common.exceptions import WebDriverException
 import sys
 
 
-print("🧨 Running test in Firefox")
+class NewVisitorTest(unittest.TestCase):
+    def setUp(self):
+        print("🧨 SetUp: Running test in Firefox")
+        self.options = FirefoxOptions()
+        self.options.add_argument("--headless")
+        self.service = FirefoxService(executable_path=shutil.which("geckodriver"))
+        self.browser = webdriver.Firefox(service=self.service, options=self.options)
 
-options = FirefoxOptions()
-options.add_argument("--headless")
+    def tearDown(self):
+        self.browser.quit()
+    
+    def test_can_start_a_todo_list(self):
+        # Edith has heard about a cool new online to-do app.
+        # She goes to check out its homepage
+        self.browser.get("http://localhost:8000")
 
-service = FirefoxService(executable_path=shutil.which("geckodriver"))
+        # She notices the page title and header mention to-do lists
+        self. assertIn("To-Do", self.browser.title)
 
-browser = webdriver.Firefox(service=service, options=options)
+        # She is invited to enter a to-do item straight away
+        self.fail("Finish the test!")
 
-try:
-    browser.get("http://localhost:8000")
-    assert "Congratulations!" in browser.title
-    print("✅ OK")
-except WebDriverException as e:
-    print("\n💥 Could not connect to the webdriver. Is it running on http://localhost:8000?")
-    print(f"Error: {e.msg}")
-    sys.exit(1)
-except AssertionError:
-    print("\n❌ Test failed: 'Congratulations!' not found in page title.")
-    print(f"Page title was: {browser.title}")
-    sys.exit(1)
-finally:
-    browser.quit()
+        # She types "Buy peacock feathers" into a text box
+        # Edith's hobby is tying fly-fishing lures)
+
+        # When she hits enter, the page updates, and now the page lists
+        # "1: Buy peacock feathers" as an item in a to-do list
+
+        # There is still a text box inviting her to add another item.
+        # She enters "Use peacock feathers to make a fly" (Edith is very methodical)
+
+        # The page updates again, and now shows both items on her list
+
+        #Satisfied, she goes back to sleep
+
+        print("✅ OK")
+
+
+if __name__ == "__main__":
+    unittest.main()
