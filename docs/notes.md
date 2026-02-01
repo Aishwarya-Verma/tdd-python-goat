@@ -62,3 +62,51 @@ python manage.py runserver
     - Used to structure a functional test.
 - **Expected failure**:
     - When a test fails in the way that we expected it to.
+
+---
+# Chapter: 3
+### Testing a Simple Home Page with Unit Tests
+- Start an app for our `to-do lists`:
+    - That will create a folder called lists, next to manage.py and the existing superlists folder, and within it a number of placeholder files for things like models, views, and tests.
+    ```sh
+    python manage.py startapp lists
+    ```
+- Functional tests versus unit tests:
+    |Functional tests|Unit tests|
+    |---|---|
+    |One test per feature/user story | Many tests per feature|
+    |Tests from the user’s point of view | Tests the code (i.e., the programmer’s point of view)|
+    |Can test that the UI "really" works | Tests the internals—individual functions or classes|
+    |Provides confidence that everything is wired together correctly and works end-to-end | Can exhaustively check permutations, details, and edge cases|
+    |Can warn about problems without telling you exactly what’s wrong | Can point at exactly where the problem is|
+    |Slow | Fast|
+- Functional tests should help you build an application that actually works, and guarantee you never accidentally break it. Unit tests should help you to write code that’s clean and bug free.
+- Django is structured along a classic model-view-controller (`MVC`) pattern—well, broadly.
+    - It definitely does have models, but what Django calls "views" are really controllers, and the view part is actually provided by the templates.
+- Django’s workflow goes like:
+  1. An HTTP request comes in for a particular URL.
+  2. Django uses some rules to decide which view function should deal with the request (this is referred to as resolving the URL).
+  3. The view function processes the request and returns an HTTP response.
+- Django uses a file called `urls.py` to map URLs to view functions. This mapping is also called `routing`.
+    - There’s a main `urls.py` for the whole site in the `superlists` folder.
+
+### Useful Commands and Concepts
+- Running the Django dev server
+    ```sh
+    python manage.py runserver
+    ```
+- Running the functional tests
+    ```sh
+    python functional_tests.py
+    ```
+- Running the unit tests
+    ```sh
+    python manage.py test
+    ```
+- The unit-test/code cycle:
+    - Run the unit tests in the terminal.
+    - Make a minimal code change in the editor.
+    - Repeat!
+
+---
+# Chapter: 4
